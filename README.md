@@ -39,22 +39,85 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 <b>Step 1/ Install necessary packages:</b>
 
-// Used for config eslint to make code more standard -- NOTE --legacy-peer-deps: resolve mismatch version between eslint and some packages in source
-npm install eslint-config-standard --legacy-peer-deps
-npm install eslint-plugin-n eslint-plugin-promise --legacy-peer-deps
+- Used for config eslint to make code more standard
+  `npm install eslint-config-standard --legacy-peer-deps`
+  `npm install eslint-plugin-n eslint-plugin-promise --legacy-peer-deps`
 
-// Used for auto save by prettier and following eslint rules
-npm install eslint-config-prettier --legacy-peer-deps
-npm install prettier --legacy-peer-deps
+<i> <b>NOTE:</b> --legacy-peer-deps: resolve mismatch version between eslint and some packages in source</i>
 
-// Used for auto save import by order
-npm i eslint-plugin-import --save-dev --legacy-peer-deps
+- Used for auto save by prettier and following eslint rules
+  `npm install eslint-config-prettier --legacy-peer-deps`
+  `npm install prettier --legacy-peer-deps`
+
+- Used for auto save import by order
+  npm i eslint-plugin-import --save-dev --legacy-peer-deps
 
 <b>Step 2/ Config file: </b>
-// Following the config file in source.
 
 - Config Workspace Settings (vscode/settings.json)
+
+```json
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.addMissingImports": "explicit"
+  },
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.semi": true,
+  "prettier.singleQuote": false,
+  "prettier.jsxSingleQuote": false,
+  "prettier.trailingComma": "es5",
+  "prettier.arrowParens": "always",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
+```
+
 - Config EsLint (eslint.config.mjs)
+
+```js
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
+});
+
+export default [
+  ...compat.extends(
+    "next/core-web-vitals",
+    "next/typescript",
+    "standard",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ),
+  {
+    rules: {
+      "no-undef": "off",
+    },
+  },
+];
+```
 
 <b>Step 3/ Install extensions & Reload</b>
 

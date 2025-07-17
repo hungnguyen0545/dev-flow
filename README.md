@@ -40,19 +40,30 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 <b>Step 1/ Install necessary packages:</b>
 
 - Used for config eslint to make code more standard
-  `npm install eslint-config-standard --legacy-peer-deps`
-  `npm install eslint-plugin-n eslint-plugin-promise --legacy-peer-deps`
+
+```bash
+npm install eslint-config-standard --legacy-peer-deps
+#and
+npm install eslint-plugin-n eslint-plugin-promise --legacy-peer-deps
+```
 
 <i> <b>NOTE:</b> --legacy-peer-deps: resolve mismatch version between eslint and some packages in source</i>
 
 - Used for auto save by prettier and following eslint rules
-  `npm install eslint-config-prettier --legacy-peer-deps`
-  `npm install prettier --legacy-peer-deps`
+
+```bash
+npm install eslint-config-prettier --legacy-peer-deps
+#and
+npm install prettier --legacy-peer-deps
+```
 
 - Used for auto save import by order
-  npm i eslint-plugin-import --save-dev --legacy-peer-deps
 
-<b>Step 2/ Config file: </b>
+```bash
+npm i eslint-plugin-import --save-dev --legacy-peer-deps
+```
+
+<b>Step 2/ Config files: </b>
 
 - Config Workspace Settings (vscode/settings.json)
 

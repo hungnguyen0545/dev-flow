@@ -16,25 +16,6 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
 ## ESlint & Prettier Setup
 
 <b>Step 1/ Install necessary packages:</b>
@@ -134,3 +115,124 @@ export default [
 
 - Install: Eslint, Prettier for Eslint, and Prettier
 - After installed, Reload VSCode and Done.
+
+## TailwindCSS & Font Setup
+
+<b>TailwindCSS</b>
+
+- With version 4 and above, all config & setup of TailwindCSS will add on [`global.css`] (https://github.com/hungnguyen0545/dev-flow/blob/main/app/globals.css) file instead of tailwind.config.js file.
+
+<b>Fonts</b>
+
+- Two main ways to import fonts into source:
+  - Use `next/font/google` can automatically self-host any Google Font.
+
+```ts
+import { Roboto } from 'next/font/google'
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  weight: '400',
+  subsets: ['latin'],
+})
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body
+        className={`${roboto.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+- Use `next/font/local` specify the src of your local font file. Fonts can be stored in the public folder or co-located inside the app folder.
+
+```ts
+import localFont from 'next/font/local'
+
+const myFont = localFont({
+  src: './my-font.woff2',
+  variable: '--font-myFont'
+})
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body
+        className={`${myFont.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+## Assets & Metadata Setup
+
+<b>Assets</b>
+
+- Save all assets such as: images, icons, svg, favicon, metadata informations..., in [`public`] (https://github.com/hungnguyen0545/dev-flow/tree/main/public) file.
+
+<b>Metadata<b>
+
+- Update static Metadata with `metadata` object
+
+```js
+export const metadata: Metadata = {
+  title: "Dev Overflow",
+  description:
+    "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
+  icons: {
+    icon: "/images/site-logo.svg",
+  },
+};
+```
+
+- <i><b>Note:</b> If you add Metadata Information in layout.js is default, and it will specific when add it in each page</i>
+
+- Update dynamic Metadata with `generateMetadata`
+
+```ts
+import type { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const { id } = await params;
+
+  // fetch data
+  const product = await fetch(`https://.../${id}`).then((res) => res.json());
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: product.title,
+    openGraph: {
+      images: ["/some-specific-page-image.jpg", ...previousImages],
+    },
+  };
+}
+
+export default function Page({ params, searchParams }: Props) {}
+```

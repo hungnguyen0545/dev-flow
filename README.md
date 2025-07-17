@@ -34,3 +34,29 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## ESlint & Prettier Setup
+
+<b>Step 1/ Install necessary packages:</b>
+
+// Used for config eslint to make code more standard -- NOTE --legacy-peer-deps: resolve mismatch version between eslint and some packages in source
+npm install eslint-config-standard --legacy-peer-deps
+npm install eslint-plugin-n eslint-plugin-promise --legacy-peer-deps
+
+// Used for auto save by prettier and following eslint rules
+npm install eslint-config-prettier --legacy-peer-deps
+npm install prettier --legacy-peer-deps
+
+// Used for auto save import by order
+npm i eslint-plugin-import --save-dev --legacy-peer-deps
+
+<b>Step 2/ Config file: </b>
+// Following the config file in source.
+
+- Config Workspace Settings (vscode/settings.json)
+- Config EsLint (eslint.config.mjs)
+
+<b>Step 3/ Install extensions & Reload</b>
+
+- Install: Eslint, Prettier for Eslint, and Prettier
+- After installed, Reload VSCode and Done.

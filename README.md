@@ -1,3 +1,7 @@
+## INTRODUCED
+
+THE DEVFLOW PROJECT
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -116,11 +120,18 @@ export default [
 - Install: Eslint, Prettier for Eslint, and Prettier
 - After installed, Reload VSCode and Done.
 
-## TailwindCSS & Font Setup
+## TailwindCSS & ShadUI & Font Setup
 
 <b>TailwindCSS</b>
 
+- [Documentation & Installation](https://tailwindcss.com/docs/installation/using-vite)
 - With version 4 and above, all config & setup of TailwindCSS will add on [global.css](https://github.com/hungnguyen0545/dev-flow/blob/main/app/globals.css) file instead of tailwind.config.js file.
+
+<b>ShadCN/UI</b>
+
+- [Documentation & Installation](https://ui.shadcn.com/docs/installation/next)
+- It is a <i>component library</i>. It is more like a design system starter kit, not a full npm library.
+- Note: To use `utility classes` for theming set `tailwind.cssVariables` to `false` in your `components.json` file - that was created after init ShadCN.
 
 <b>Fonts</b>
 
@@ -235,3 +246,128 @@ export async function generateMetadata(
 
 export default function Page({ params, searchParams }: Props) {}
 ```
+
+## Next-Theme Setup
+
+- Purpose: To config theme toggler ( on/off `Dark Mode` )
+
+<b>Step 1/ Install next-themes</b>
+
+- [Documentation & Installation](https://www.npmjs.com/package/next-themes)
+
+```bash
+npm install next-themes
+```
+
+<b>Step 2/ Create Theme Provider </b>
+
+```ts
+"use client";
+
+import {
+  ThemeProvider as NextThemeProvider,
+  ThemeProviderProps,
+} from "next-themes";
+import React from "react";
+
+const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
+  return <NextThemeProvider {...props}>{children}</NextThemeProvider>;
+};
+
+export default ThemeProvider;
+```
+
+<b>Step 3/ Wrap your Root layout</b>
+
+```html
+<html lang="en" suppressHydrationWarning>
+  <body suppressHydrationWarning>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
+  </body>
+</html>
+```
+
+- <b>Note:</b> If you do not add `suppressHydrationWarning` to your `<html>` you will get warnings because `next-themes` updates that element. This property only applies `one level deep`, so it won't block hydration warnings on other elements.
+
+<b>Step 4/ Add mode toggle</b>
+
+- Get toggle button from [ShadCN](https://ui.shadcn.com/docs/dark-mode/next#install-next-themes)
+
+## Issues
+
+<h3><i>Hydration</i></h3>
+
+- 1/ What is Hydration?
+  - `Hydration` is the process where React takes over the `static HTML` sent from the `server` and makes it interactive on the client side.
+
+  - A `hydration` issue happens when the` HTML rendered on the server` is `different` from what React tries to render on the client. This mismatch causes warnings or bugs.
+
+- 2/ Why does it happen?
+  - ❌ Using random values (e.g. Math.random(), Date.now()) during server render
+  - ❌ Accessing window or document on the server
+  - ❌ Rendering different UI based on client-only state (`Often`)
+
+- 3/ How to Fit It?
+  - Move client-only logic into useEffect (runs only on the client)
+
+  ```ts
+  const [now, setNow] = useState(null);
+
+  useEffect(() => {
+    setNow(Date.now());
+  }, []);
+  ```
+
+  - Avoid dynamic values in server-rendered output
+  - Use conditional rendering
+
+  ```ts
+  const isClient = typeof window !== "undefined";
+  ```
+
+<h3><i>Mismatch version between packages</i></h3>
+
+- Happens When: You or one of your dependencies expects one version of a package…but a different version is installed.
+
+- Types of Mismatches:
+  - Peer dependency mismatch: Library expects a version of React that differs from yours
+    - Ex: next-themes needs React 18, you use 19
+  - Hard dependency mismatch: Two packages require conflicting versions of the same sub-package
+    - Ex: A wants lodash@4, B wants lodash@3
+  - Transitive mismatch: a sub-dependency version is incompatible
+  - Ex: next > postcss conflict
+
+- How to fix it?
+  - Use `--legacy-peer-deps`: Bypass errors in npm install (not recommended long-term)
+
+    ```bash
+    npm install next-themes --legacy-peer-deps
+    ```
+
+  - Use `packageManager` & `overrides`
+    - With `packageManager`: it declares required package manager & version, lock down your toolchain and avoid mysterious “`install failed`” errors due to version mismatches. You should check `Node.js Compatibility` and the `Packages Compatibility` to find the right version
+
+    - With `overrides`: lets you force specific versions of dependencies or sub-dependencies, even if their original package asked for a different one
+
+    - Ex: In `package.json` file:
+
+    ```bash
+    "packageManager": "npm@10.7.0",
+    "overrides": {
+      "react": "$react",
+      "react-dom": "$react-dom",
+      "tailwindcss": "$tailwindcss",
+      "eslint": "$eslint",
+      "eslint-config-standard": "$eslint-config-standard",
+      "eslint-plugin-n": "$eslint-plugin-n",
+      "eslint-plugin-promise": "$eslint-plugin-promise",
+      "eslint-plugin-tailwindcss": "$eslint-plugin-tailwindcss"
+    }
+    ```

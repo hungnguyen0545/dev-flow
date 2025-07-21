@@ -120,12 +120,11 @@ export default [
 
 <b>TailwindCSS</b>
 
-- With version 4 and above, all config & setup of TailwindCSS will add on [`global.css`] (https://github.com/hungnguyen0545/dev-flow/blob/main/app/globals.css) file instead of tailwind.config.js file.
+- With version 4 and above, all config & setup of TailwindCSS will add on [global.css](https://github.com/hungnguyen0545/dev-flow/blob/main/app/globals.css) file instead of tailwind.config.js file.
 
 <b>Fonts</b>
 
-- Two main ways to import fonts into source:
-  - Use `next/font/google` can automatically self-host any Google Font.
+- Use `next/font/google` can automatically self-host any Google Font.
 
 ```ts
 import { Roboto } from 'next/font/google'
@@ -184,7 +183,7 @@ export default function RootLayout({
 
 <b>Assets</b>
 
-- Save all assets such as: images, icons, svg, favicon, metadata informations..., in [`public`] (https://github.com/hungnguyen0545/dev-flow/tree/main/public) file.
+- Save all assets such as: images, icons, svg, favicon, metadata informations..., in [public](https://github.com/hungnguyen0545/dev-flow/tree/main/public) file.
 
 <b>Metadata<b>
 
@@ -201,7 +200,7 @@ export const metadata: Metadata = {
 };
 ```
 
-- <i><b>Note:</b> If you add Metadata Information in layout.js is default, and it will specific when add it in each page</i>
+- <b>Note:</b> <i>If you add Metadata Information in layout.js is default, and it will specific when add it in each page</i>
 
 - Update dynamic Metadata with `generateMetadata`
 

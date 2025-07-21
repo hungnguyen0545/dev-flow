@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import Navbar from "@/components/navigation/navbar";
+import { Toaster } from "@/components/ui/sonner";
 import ThemeProvider from "@/context/Theme";
 import "./globals.css";
 
@@ -43,9 +43,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
           {children}
         </ThemeProvider>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

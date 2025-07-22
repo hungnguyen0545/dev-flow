@@ -2,9 +2,11 @@
 
 <h3>THE DEVFLOW PROJECT</h3>
 
-This is a `learning project` from [JSMastery](https://jsmastery.com/) - All resources are provided as follows:
+This is a `Learning Project` from [JSMastery](https://jsmastery.com/) - All resources are provided as follows:
 
-- Figma: https://www.figma.com/design/2vtjgodtBxTdg0zOUHPvXh/JSM-Pro---DevOverflow?node-id=1-49&p=f&t=pSJTuQhCiICF03is-0
+- Design: https://www.figma.com/design/2vtjgodtBxTdg0zOUHPvXh/JSM-Pro---DevOverflow?node-id=1-49&p=f&t=pSJTuQhCiICF03is-0
+
+- Assets: [Resources](https://github.com/hungnguyen0545/dev-flow/tree/main/public)
 
 ## Tech Stack
 
@@ -26,11 +28,64 @@ This is a `learning project` from [JSMastery](https://jsmastery.com/) - All reso
 
 - React Hook Form
 
-## Getting Started
+## Quick Start
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Follow these steps to set up the project locally on your machine.
 
-First, run the development server:
+<b>Prerequisites</b>
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en)
+- [npm(Node Package Manager)](https://www.npmjs.com/)
+
+<b>Set Up Environment Variables</b>
+
+```bash
+git clone git@github.com:hungnguyen0545/.git
+cd dev-flow
+```
+
+<b>Installation</b>
+
+```bash
+npm install
+```
+
+<b>Set Up Environment Variables</b>
+Create a new file named .env in the root of your project and add the following content:
+
+```bash
+# Mongodb
+MONGODB_URI=
+
+# OpenAI
+OPENAI_API_KEY=
+
+# Rapid API
+NEXT_PUBLIC_RAPID_API_KEY=
+
+# Auth
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+AUTH_GITHUB_ID=
+AUTH_GITHUB_SECRET=
+AUTH_SECRET=
+NEXTAUTH_URL=
+
+# Tiny Editor
+NEXT_PUBLIC_TINY_EDITOR_API_KEY=
+
+NEXT_PUBLIC_SERVER_URL=
+
+NODE_ENV=
+```
+
+Replace the placeholder values with your actual credentials. You can obtain these credentials by signing up on the respective websites
+
+<b>Running the Project</b>
 
 ```bash
 npm run dev
@@ -43,6 +98,8 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## ------------- Detail Setups ------------------
 
 ## ESlint & Prettier Setup
 

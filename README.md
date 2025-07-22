@@ -1,10 +1,34 @@
-## INTRODUCED
+## Introduction
 
-THE DEVFLOW PROJECT
+<h3>THE DEVFLOW PROJECT</h3>
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a `learning project` from [JSMastery](https://jsmastery.com/) - All resources are provided as follows:
+
+- Figma: https://www.figma.com/design/2vtjgodtBxTdg0zOUHPvXh/JSM-Pro---DevOverflow?node-id=1-49&p=f&t=pSJTuQhCiICF03is-0
+
+## Tech Stack
+
+- Zod
+
+- Next.js
+
+- NextAuth
+
+- Open AI
+
+- MongoDB
+
+- ShadCN UI
+
+- TypeScript
+
+- TailwindCSS
+
+- React Hook Form
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 First, run the development server:
 

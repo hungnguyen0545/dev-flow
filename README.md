@@ -10,23 +10,23 @@ This is a `Learning Project` from [JSMastery](https://jsmastery.com/) - All reso
 
 ## Tech Stack
 
-- Zod
+- [Next.js](https://nextjs.org/)
 
-- Next.js
+- [React](https://react.dev/)
 
-- NextAuth
+- [NextAuth](https://authjs.dev/)
 
-- Open AI
+- [MongoDB](https://www.mongodb.com/)
 
-- MongoDB
+- [TypeScript](https://www.typescriptlang.org/)
 
-- ShadCN UI
+- [ShadCN UI](https://ui.shadcn.com/)
 
-- TypeScript
+- [TailwindCSS](https://tailwindcss.com/)
 
-- TailwindCSS
+- [React Hook Form](https://react-hook-form.com)
 
-- React Hook Form
+- [Zod](https://zod.dev/)
 
 ## Quick Start
 

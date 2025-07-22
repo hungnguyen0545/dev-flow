@@ -14,7 +14,7 @@ const NavLinks = ({ isMobileNav }: { isMobileNav?: boolean }) => {
   const pathname = usePathname();
   const userId = 1;
   return (
-    <section className="flex h-full flex-col gap-6 pt-16">
+    <section className="flex h-full flex-col gap-6">
       {sidebarLinks.map((link) => {
         const isActive =
           pathname === link.route ||
@@ -27,7 +27,7 @@ const NavLinks = ({ isMobileNav }: { isMobileNav?: boolean }) => {
         const LinkComponent = (
           <Link
             key={link.label}
-            href={link.route}
+            href={link.route as string}
             className={cn(
               isActive
                 ? "primary-gradient rounded-lg text-light-900"

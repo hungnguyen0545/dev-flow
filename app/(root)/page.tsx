@@ -1,29 +1,76 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
-const Home = async () => {
+import LocalSearch from "@/components/search/LocalSearch";
+import { Button } from "@/components/ui/button";
+import ROUTES from "@/constants/routes";
+
+const questions = [
+  {
+    _id: "1",
+    title: "How to learn React?",
+    description: "I want to learn React, can anyone help me?",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
+    ],
+    author: { _id: "1", name: "John Doe" },
+    upvotes: 10,
+    answers: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+  {
+    _id: "2",
+    title: "How to learn JavaScript?",
+    description: "I want to learn JavaScript, can anyone help me?",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
+    ],
+    author: { _id: "1", name: "John Doe" },
+    upvotes: 10,
+    answers: 5,
+    views: 100,
+    createdAt: new Date(),
+  },
+];
+
+interface HomeProps {
+  searchParams: Promise<{
+    [key: string]: string | undefined;
+  }>;
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
+  const { query } = await searchParams;
+
+  const filteredQuestions = questions.filter((question) =>
+    question.title.toLowerCase().includes(query?.toLowerCase() ?? "")
+  );
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="h1-bold font-inter">Hello World</h1>
-      <h1 className="h1-bold font-space-grotesk">Hello World</h1>
-      <DropdownMenu>
-        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <>
+      <section className="flex-between">
+        <h1>All Questions</h1>
+        <Button>
+          <Link href={ROUTES.ASK_QUESTION}> Ask a Question</Link>
+        </Button>
+      </section>
+      <div className="mt-11">
+        <LocalSearch
+          route={ROUTES.HOME}
+          iconSrc="icons/search.svg"
+          placeholder="Search for questions"
+          otherClasses="flex-1"
+        />
+      </div>
+      {/* HomeFilter */}
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {filteredQuestions.map((question) => (
+          <h1 key={question._id}>{question.title}</h1>
+        ))}
+      </div>
+    </>
   );
 };
 

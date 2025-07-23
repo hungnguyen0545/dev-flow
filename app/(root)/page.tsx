@@ -64,26 +64,29 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <>
-      <section className="flex-between">
-        <h1>All Questions</h1>
-        <Button>
+      <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
+        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
+        <Button
+          className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900"
+          asChild
+        >
           <Link href={ROUTES.ASK_QUESTION}> Ask a Question</Link>
         </Button>
       </section>
-      <div className="mt-11">
+      <section className="mt-11">
         <LocalSearch
           route={ROUTES.HOME}
           iconSrc="icons/search.svg"
           placeholder="Search for questions"
           otherClasses="flex-1"
         />
-      </div>
+      </section>
       <HomeFilter />
-      <div className="mt-10 flex w-full flex-col gap-6">
+      <section className="mt-10 flex w-full flex-col gap-6">
         {filteredQuestions.map((question) => (
           <QuestionCard key={question._id} question={question} />
         ))}
-      </div>
+      </section>
     </>
   );
 };

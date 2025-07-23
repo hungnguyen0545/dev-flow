@@ -1,7 +1,8 @@
 import Link from "next/link";
 
+import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
-import LocalSearch from "@/components/searches/LocalSearch";
+import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
@@ -11,7 +12,12 @@ const questions = [
     title: "How to learn React?",
     description: "I want to learn React, can anyone help me?",
     tags: [{ _id: "1", name: "React" }],
-    author: { _id: "1", name: "John Doe" },
+    author: {
+      _id: "1",
+      name: "John Doe",
+      image:
+        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+    },
     upvotes: 10,
     answers: 5,
     views: 100,
@@ -21,12 +27,17 @@ const questions = [
     _id: "2",
     title: "How to learn JavaScript?",
     description: "I want to learn JavaScript, can anyone help me?",
-    tags: [{ _id: "2", name: "JavaScript" }],
-    author: { _id: "1", name: "John Doe" },
+    tags: [{ _id: "1", name: "JavaScript" }],
+    author: {
+      _id: "2",
+      name: "John Wick",
+      image:
+        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+    },
     upvotes: 10,
     answers: 5,
     views: 100,
-    createdAt: new Date(),
+    createdAt: new Date("2021-09-01"),
   },
 ];
 
@@ -70,7 +81,7 @@ const Home = async ({ searchParams }: HomeProps) => {
       <HomeFilter />
       <div className="mt-10 flex w-full flex-col gap-6">
         {filteredQuestions.map((question) => (
-          <h1 key={question._id}>{question.title}</h1>
+          <QuestionCard key={question._id} question={question} />
         ))}
       </div>
     </>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 
 import { SheetClose } from "@/components/ui/sheet";
@@ -12,15 +12,15 @@ import { cn } from "@/lib/utils";
 
 const NavLinks = ({ isMobileNav }: { isMobileNav?: boolean }) => {
   const pathname = usePathname();
-  const userId = 1;
+  const param = useParams();
   return (
     <section className="flex h-full flex-col gap-6">
       {sidebarLinks.map((link) => {
         const isActive =
           pathname === link.route ||
           (pathname?.includes(link.route) && link.route.length > 1);
-        if (link.route === ROUTES.PROFILE) {
-          if (userId) link.route = `${link.route}/${userId}`;
+        if (link.route === ROUTES.PROFILE("")) {
+          if (param?.id) link.route = `${link.route}${param.id}`;
           else return null;
         }
 

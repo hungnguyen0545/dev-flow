@@ -9,7 +9,7 @@ import { Badge } from "../ui/badge";
 interface TagCardProps {
   _id: string;
   name: string;
-  questions: number;
+  questions?: number;
   showCount?: boolean;
   compact?: boolean;
 }
@@ -26,7 +26,7 @@ export const TagCard = ({
     <Link href={ROUTES.TAGS(_id)} className="flex justify-between gap-2">
       <Badge className="subtle-medium background-light800_dark300 text-light400_light500 rounded-md border-none px-4 py-2 uppercase">
         <div className="flex-center space-x-2">
-          {compact && <i className={`${iconClass} text-sm`} />}
+          <i className={`${iconClass} text-sm`} />
           <span>{name}</span>
         </div>
       </Badge>

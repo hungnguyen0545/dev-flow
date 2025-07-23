@@ -10,7 +10,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { ZodType } from "zod";
+import { z, ZodType } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +40,7 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormProps<T>) => {
   // 1. Define your form.
-  const form = useForm<T>({
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues,
   });

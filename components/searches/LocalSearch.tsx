@@ -30,24 +30,24 @@ const LocalSearch = ({
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
+      let newUrl = "";
       if (searchQuery) {
-        const newUrl = formUrlQuery({
+        newUrl = formUrlQuery({
           params: searchParams.toString(), // Convert the search params to a string
           key: "query",
-          value: searchQuery,
+          value: searchQuery.trim(),
         });
-        router.push(newUrl, { scroll: false }); // Navigate to the new URL
       } else {
-        // if (pathname === route) {
-        // If the pathname is the same as the route, remove the query parameter
-        // It prevents the page from reloading when the user clicks the search button
-        const newUrl = removeKeyFromUrl({
-          params: searchParams.toString(),
-          keys: ["query"],
-        });
-        router.push(newUrl, { scroll: false });
-        // }
+        if (pathname === route) {
+          // If the pathname is the same as the route, remove the query parameter
+          // It prevents the page from reloading when the user clicks the search button
+          newUrl = removeKeyFromUrl({
+            params: searchParams.toString(),
+            keys: ["query"],
+          });
+        }
       }
+      router.push(newUrl, { scroll: false }); // Navigate to the new URL
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);

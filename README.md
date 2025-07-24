@@ -8,6 +8,8 @@ This is a `Learning Project` from [JSMastery](https://jsmastery.com/) - All reso
 
 - Assets: [Resources](https://github.com/hungnguyen0545/dev-flow/tree/main/public)
 
+- Database Schema: [Schema](https://www.mermaidchart.com/raw/c536cd1d-4449-4b13-ab26-6eff83763267?theme=light&version=v0.1&format=svg)
+
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/)

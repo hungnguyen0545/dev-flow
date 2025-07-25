@@ -10,8 +10,9 @@ import { UserSchema } from "@/lib/validations";
 /**
  *  POST /api/users/email
  *
- *  Reason: use POST for "get user by email" to protect sensitive information,
- *  allow for better input validation, and avoid caching or logging issues that could expose user data.
+ *  - Purpose: To allow authentication checks by email only.
+ *  - Reason: use POST for "get user by email" to protect sensitive information,
+ *    allow for better input validation, and avoid caching or logging issues that could expose user data.
  **/
 
 export async function POST(request: Request) {

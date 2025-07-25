@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
     const newUser = await User.create(validatedBody.data);
 
-    return NextResponse.json({ success: true, data: newUser }, { status: 200 });
+    return NextResponse.json({ success: true, data: newUser }, { status: 201 });
   } catch (error) {
     return handleError(error, RESPONSE_SOURCE.API) as APIResponse;
   }

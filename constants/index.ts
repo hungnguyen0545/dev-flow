@@ -37,3 +37,8 @@ export const sidebarLinks = [
     label: "Ask a question",
   },
 ];
+
+export const RESPONSE_SOURCE: Record<string, ResponseSource> = {
+  API: "api",
+  SERVER: "server",
+};

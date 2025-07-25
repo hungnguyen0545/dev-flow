@@ -35,7 +35,7 @@ export class ValidationError extends RequestError {
       }
     );
 
-    return formattedMessages.join(", ");
+    return formattedMessages.join(" ");
   }
 }
 

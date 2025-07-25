@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
+import { RESPONSE_SOURCE } from "@/constants";
+
 import { RequestError, ValidationError } from "../http-errors";
 import logger from "../logger";
 
-export type ResponseType = "api" | "server";
-
 const formatResponse = (
-  responseType: ResponseType,
+  responseSource: ResponseSource,
   status: number,
   message: string,
   errors?: Record<string, string[]> | undefined
@@ -20,20 +20,23 @@ const formatResponse = (
     },
   };
 
-  return responseType === "api"
-    ? NextResponse.json(responseContent, { status })
+  return responseSource === RESPONSE_SOURCE.API
+    ? (NextResponse.json(responseContent, { status }) as APIResponse)
     : { status, ...responseContent };
 };
 
-const handleError = (error: unknown, responseType: ResponseType = "server") => {
+const handleError = (
+  error: unknown,
+  responseSource: ResponseSource = "server"
+) => {
   if (error instanceof RequestError) {
     logger.error(
       { err: error },
-      `${responseType.toUpperCase()} Error: ${error.message}`
+      `${responseSource.toUpperCase()} Error: ${error.message}`
     );
 
     return formatResponse(
-      responseType,
+      responseSource,
       error.statusCode,
       error.message,
       error.errors
@@ -51,7 +54,7 @@ const handleError = (error: unknown, responseType: ResponseType = "server") => {
     );
 
     return formatResponse(
-      responseType,
+      responseSource,
       validationError.statusCode,
       validationError.message,
       validationError.errors
@@ -60,11 +63,11 @@ const handleError = (error: unknown, responseType: ResponseType = "server") => {
 
   if (error instanceof Error) {
     logger.error(error.message);
-    return formatResponse(responseType, 500, error.message);
+    return formatResponse(responseSource, 500, error.message);
   }
 
   logger.error({ err: error }, "An unexpected error occurred");
-  return formatResponse(responseType, 500, "An unexpected error occurred");
+  return formatResponse(responseSource, 500, "An unexpected error occurred");
 };
 
 export default handleError;

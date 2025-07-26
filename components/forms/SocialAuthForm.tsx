@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { OAUTH_PROVIDERS } from "@/constants/auth";
 import ROUTES from "@/constants/routes";
+import { isError } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 
@@ -21,8 +22,7 @@ const SocialAuthForm = () => {
         redirectTo: ROUTES.HOME,
       });
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Something went wrong";
+      const message = isError(error) ? error.message : "Something went wrong";
       toast.error(message);
     }
   };

@@ -37,3 +37,7 @@ export const getTimeStamp = (date: Date) => {
   }
   return "just now";
 };
+
+export const isError = (error: unknown): error is Error => {
+  return error instanceof Error;
+};

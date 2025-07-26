@@ -5,8 +5,8 @@ import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { api } from "@/lib/api";
 import handleError from "@/lib/handlers/errors";
-import dbConnect from "@/lib/mongoose";
 
 const questions = [
   {
@@ -45,7 +45,8 @@ const questions = [
 
 const test = async () => {
   try {
-    await dbConnect();
+    const response = await api.users.getAll();
+    console.log(response);
   } catch (error) {
     return handleError(error);
   }

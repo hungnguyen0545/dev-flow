@@ -5,6 +5,7 @@ import { RESPONSE_SOURCE } from "@/constants";
 
 import { RequestError, ValidationError } from "../http-errors";
 import logger from "../logger";
+import { isError } from "../utils";
 
 const formatResponse = (
   responseSource: ResponseSource,
@@ -61,7 +62,7 @@ const handleError = (
     );
   }
 
-  if (error instanceof Error) {
+  if (isError(error)) {
     logger.error(error.message);
     return formatResponse(responseSource, 500, error.message);
   }

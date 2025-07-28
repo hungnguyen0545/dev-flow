@@ -25,9 +25,12 @@ export async function POST(request: Request) {
       throw new ValidationError(validatedProvider.error.flatten().fieldErrors);
     }
 
-    const { provider } = validatedProvider.data;
+    const { providerAccountId } = validatedProvider.data;
 
-    const account = await Account.findOne({ provider });
+    const account = await Account.findOne({
+      providerAccountId,
+    });
+
     if (!account) {
       throw new NotFoundError("Account");
     }

@@ -1,12 +1,11 @@
 import Link from "next/link";
 
+import { auth } from "@/auth";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { api } from "@/lib/api";
-import handleError from "@/lib/handlers/errors";
 
 const questions = [
   {
@@ -43,15 +42,6 @@ const questions = [
   },
 ];
 
-const test = async () => {
-  try {
-    const response = await api.users.getAll();
-    console.log(response);
-  } catch (error) {
-    return handleError(error);
-  }
-};
-
 interface HomeProps {
   searchParams: Promise<{
     [key: string]: string | undefined;
@@ -59,7 +49,8 @@ interface HomeProps {
 }
 
 const Home = async ({ searchParams }: HomeProps) => {
-  await test();
+  const session = await auth();
+  console.log("session", session);
 
   const { query = "", filter = "" } = await searchParams;
 

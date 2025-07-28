@@ -21,6 +21,8 @@ interface Question {
   createdAt: Date;
 }
 
+type OAuthProvider = "github" | "google";
+
 type ResponseSource = "api" | "server";
 
 type ActionResponse<T = null> = {

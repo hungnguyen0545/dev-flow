@@ -30,6 +30,8 @@ This is a `Learning Project` from [JSMastery](https://jsmastery.com/) - All reso
 
 - [Zod](https://zod.dev/)
 
+- [Husky](https://github.com/hungnguyen0545/dev-flow/blob/main/documents/Husky_Security.md)
+
 ## Quick Start
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).

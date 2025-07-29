@@ -128,3 +128,5 @@ Cons
 - [Session Based Authentication - roadmap.sh](https://roadmap.sh/guides/session-based-authentication)
 - [Basics of Authentication - roadmap.sh](https://roadmap.sh/guides/basics-of-authentication)
 - [JWT Authentication - roadmap.sh](https://roadmap.sh/guides/jwt-authentication)
+
+<img src="/public/images/Email_Password Auth Diagram _ Mermaid Chart-2025-07-29-090507.svg" >

@@ -334,14 +334,13 @@ try {
 
 if (foundSecrets) {
   console.log(
-    "\n⚠️  Hardcoded secrets detected! Please review the above lines."
+    "\n❌ Hardcoded secrets detected! Please review the above lines."
   );
   console.log(
     "💡 Tip: Use environment variables (process.env.VARIABLE_NAME) instead of hardcoding secrets."
   );
   console.log("💡 Tip: Configuration files in .gitignore are safe to use.");
-  // Temporarily allow commit for testing
-  console.log("⚠️  Allowing commit for testing purposes...");
+  process.exit(1);
 } else {
   console.log("✅ No hardcoded secrets found in code");
 }

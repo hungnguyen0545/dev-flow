@@ -2,14 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Control,
-  DefaultValues,
   FieldValues,
   Path,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { toast } from "sonner";
 import { z, ZodType } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -29,8 +30,8 @@ type AuthFormProps<T extends FieldValues> = {
   formType: (typeof AUTH_FORM_TYPES)[keyof typeof AUTH_FORM_TYPES];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: ZodType<T, any, any>;
-  defaultValues: DefaultValues<T>;
-  onSubmit: (data: T) => Promise<{ success: boolean; data: T }>;
+  defaultValues: T;
+  onSubmit: (data: T) => Promise<ActionResponse>;
 };
 
 const AuthForm = <T extends FieldValues>({
@@ -39,6 +40,7 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   onSubmit,
 }: AuthFormProps<T>) => {
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -46,8 +48,21 @@ const AuthForm = <T extends FieldValues>({
   });
 
   // 2. Define a submit handler.
-  const handleSubmit: SubmitHandler<FieldValues> = async () => {
-    // TODO: Authenticate User
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    console.log(data);
+    const result = (await onSubmit(data)) as ActionResponse;
+
+    if (result?.success) {
+      toast.success(
+        formType === "SIGN_IN"
+          ? "Signed in successfully"
+          : "Signed up successfully"
+      );
+
+      router.push(ROUTES.HOME);
+    } else {
+      toast.error(result?.error?.message);
+    }
   };
 
   const buttonText =

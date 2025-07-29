@@ -31,10 +31,12 @@ export async function POST(request: Request) {
       throw new ValidationError(validatedAccount.error.flatten().fieldErrors);
     }
 
+    const { provider, providerAccountId } = validatedAccount.data;
     const existingAccount = await Account.findOne({
-      provider: validatedAccount.data.provider,
-      providerAccountId: validatedAccount.data.providerAccountId,
+      provider,
+      providerAccountId,
     });
+
     if (existingAccount) {
       throw new ForbiddenError(
         "An account with the same provider already exists"

@@ -4,6 +4,7 @@ import Link from "next/link";
 import ROUTES from "@/constants/routes";
 
 import NavLinks from "./navbar/NavLinks";
+import { SignOutBtn } from "../buttons/sign-out-btn";
 import { Button } from "../ui/button";
 
 const LeftSideBar = async () => {
@@ -45,6 +46,8 @@ const LeftSideBar = async () => {
             <span className="primary-text-gradient max-lg:hidden">Sign Up</span>
           </Link>
         </Button>
+
+        <SignOutBtn />
       </div>
     </div>
   );

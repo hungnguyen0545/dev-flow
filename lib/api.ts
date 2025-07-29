@@ -1,7 +1,5 @@
 import { Account, User } from "next-auth";
 
-import { SignInWithOAuthParams } from "@/types/action";
-
 import { fetchHandler } from "./handlers/fetch";
 
 const API_BASE_URL =

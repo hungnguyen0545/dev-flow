@@ -49,8 +49,7 @@ interface HomeProps {
 }
 
 const Home = async ({ searchParams }: HomeProps) => {
-  const session = await auth();
-  console.log("session", session);
+  await auth();
 
   const { query = "", filter = "" } = await searchParams;
 

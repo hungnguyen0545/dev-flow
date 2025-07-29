@@ -1,4 +1,4 @@
-export type SignInWithOAuthParams = {
+interface SignInWithOAuthParams {
   provider: OAuthProvider;
   providerAccountId: string;
   user: {
@@ -7,4 +7,11 @@ export type SignInWithOAuthParams = {
     email: string;
     image: string;
   };
-};
+}
+
+interface AuthCredentials {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}

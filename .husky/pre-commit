@@ -1,0 +1,20 @@
+echo "🔍 Running pre-commit checks..."
+
+# Run our secret checking script
+npm run check-secrets
+
+# Check for .env files in staged changes
+if git diff --cached --name-only | grep -E "\.env"; then
+    echo "❌ Error: .env files detected in commit!"
+    echo "Please ensure all .env files are in .gitignore"
+    exit 1
+fi
+
+# Check for credential files in staged changes
+if git diff --cached --name-only | grep -E "\.(pem|key|p12|pfx)$|credentials\.json|service-account-key\.json"; then
+    echo "❌ Error: Credential files detected in commit!"
+    echo "Please ensure all credential files are in .gitignore"
+    exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"

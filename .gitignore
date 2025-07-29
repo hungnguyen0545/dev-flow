@@ -39,6 +39,38 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.
+
 # data
 *.example.json
+
+# Secrets and sensitive files
+*.key
+*.p12
+*.pfx
+secrets.json
+config/secrets.json
+credentials.json
+service-account-key.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs
+*.log
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

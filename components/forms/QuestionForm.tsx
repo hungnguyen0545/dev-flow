@@ -35,6 +35,7 @@ const QuestionForm = () => {
   const editorRef = useRef<MDXEditorMethods>(null);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
@@ -195,6 +196,7 @@ const QuestionForm = () => {
         <div className="mt-16 flex justify-end">
           <Button
             type="submit"
+            disabled={isPending || form.formState.isSubmitting} // disable the button if the question is being submitted
             className="primary-gradient w-fit !text-light-900"
           >
             {isPending ? (

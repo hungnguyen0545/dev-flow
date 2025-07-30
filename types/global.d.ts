@@ -42,6 +42,6 @@ type APIErrorResponse = NextResponse<ErrorResponse>;
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
 interface RouteParams {
-  params: Promise<Record<string, string>>;
-  searchParams: Promise<Record<string, string>>;
+  params: Promise<Record<string, string>>; // ex: params; /questions/123
+  searchParams: Promise<Record<string, string>>; // ex: searchParams; /questions?q=123&tag=123
 }

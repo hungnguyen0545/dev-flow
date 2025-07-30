@@ -1,6 +1,15 @@
-import QuestionForm from "@/components/forms/QuestionForm";
+import { redirect } from "next/navigation";
 
-const page = () => {
+import { auth } from "@/auth";
+import QuestionForm from "@/components/forms/QuestionForm";
+import ROUTES from "@/constants/routes";
+
+const AskQuestion = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect(ROUTES.SIGN_IN);
+  }
+
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">Ask a question</h1>
@@ -12,4 +21,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AskQuestion;

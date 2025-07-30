@@ -48,7 +48,7 @@ const dbConnect = async (): Promise<Mongoose> => {
   try {
     cached.conn = await cached.promise;
   } catch (error) {
-    console.error("Error connecting to MongoDB", error);
+    logger.error("Error connecting to MongoDB", error);
     throw error;
   }
 

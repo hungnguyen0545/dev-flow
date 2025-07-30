@@ -95,7 +95,6 @@ export const signInWithCredentials = async ({
 }: {
   params: Pick<AuthCredentials, "email" | "password">;
 }): Promise<ActionResponse> => {
-  console.log("signInWithCredentials: ", params);
   const validatedResult = await action({ params, schema: SignInSchema });
   if (validatedResult instanceof Error) {
     return handleError(validatedResult) as ErrorResponse;

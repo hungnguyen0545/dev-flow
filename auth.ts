@@ -16,7 +16,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google,
     Credentials({
       async authorize(credentials) {
-        console.log("credentials", credentials);
         const validatedCredentials = SignInSchema.safeParse(credentials);
         if (!validatedCredentials.success) return null;
 
@@ -25,23 +24,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           (await api.accounts.getByProviderAccountId(
             email
           )) as ActionResponse<IAccountDoc>;
-
         if (!existingAccount) return null;
+
         const { data: existingUser } = (await api.users.getByEmail(
           email
-        )) as APIResponse<IUserDoc>;
-
+        )) as ActionResponse<IUserDoc>;
         if (!existingUser) return null;
 
         const isPasswordValid = await bcrypt.compare(
           password,
-          existingUser.password
+          existingAccount.password!
         );
-
         if (!isPasswordValid) return null;
 
         return {
-          id: existingUser._id.toString(),
+          id: existingUser.id,
           email: existingUser.email,
           name: existingUser.name,
           image: existingUser.image,
@@ -61,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             account.type === "credentials"
               ? (token.email as string)
               : account.providerAccountId
-          )) as APIResponse<IAccountDoc>;
+          )) as ActionResponse<IAccountDoc>;
 
         if (!success || !existingAccount) return token;
 
@@ -75,7 +72,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async signIn({ user, profile, account }) {
-      console.log("signIn", { user, profile, account });
       if (account?.type === "credentials") return true;
       if (!account || !user) return false;
 
@@ -93,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         user: userInfo,
         provider: account.provider as OAuthProvider,
         providerAccountId: account.providerAccountId,
-      })) as APIResponse;
+      })) as ActionResponse;
 
       if (!success) return false;
 

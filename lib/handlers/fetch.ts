@@ -42,10 +42,7 @@ export const fetchHandler = async <T>(
 
     const data = await response.json();
 
-    return {
-      success: true,
-      data,
-    };
+    return data as ActionResponse<T>;
   } catch (err) {
     const error = isError(err) ? err : new Error("Unknow Error");
 

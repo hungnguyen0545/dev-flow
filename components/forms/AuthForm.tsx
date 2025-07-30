@@ -49,7 +49,6 @@ const AuthForm = <T extends FieldValues>({
 
   // 2. Define a submit handler.
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    console.log(data);
     const result = (await onSubmit(data)) as ActionResponse;
 
     if (result?.success) {

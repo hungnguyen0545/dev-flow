@@ -9,16 +9,16 @@ import User from "@/databases/user.model";
 import { action } from "@/lib/handlers/action";
 
 import handleError from "../handlers/errors";
-import { SignUpSchema } from "../validations";
+import { NotFoundError } from "../http-errors";
+import logger from "../logger";
+import { SignInSchema, SignUpSchema } from "../validations";
 
 export const signUpWithCredentials = async ({
   params,
 }: {
   params: AuthCredentials;
 }): Promise<ActionResponse> => {
-  console.log("params", params);
   const validatedResult = await action({ params, schema: SignUpSchema });
-  console.log("validatedResult", validatedResult);
   if (validatedResult instanceof Error) {
     return handleError(validatedResult) as ErrorResponse;
   }
@@ -70,7 +70,7 @@ export const signUpWithCredentials = async ({
         redirect: false,
       });
     } catch (signInError) {
-      console.error("Sign in error:", signInError);
+      logger.error("Sign in error:", signInError);
       // Don't throw here, just log the error
       // The user is still created successfully
     }
@@ -87,5 +87,53 @@ export const signUpWithCredentials = async ({
     return handleError(error) as ErrorResponse;
   } finally {
     await session.endSession();
+  }
+};
+
+export const signInWithCredentials = async ({
+  params,
+}: {
+  params: Pick<AuthCredentials, "email" | "password">;
+}): Promise<ActionResponse> => {
+  console.log("signInWithCredentials: ", params);
+  const validatedResult = await action({ params, schema: SignInSchema });
+  if (validatedResult instanceof Error) {
+    return handleError(validatedResult) as ErrorResponse;
+  }
+
+  const { email, password } = validatedResult.params!;
+  try {
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      throw new NotFoundError("User not found");
+    }
+
+    const existingAccount = await Account.findOne({
+      provider: "credentials",
+      providerAccountId: email,
+    });
+    if (!existingAccount) {
+      throw new NotFoundError("Account not found");
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingAccount.password
+    );
+    if (!isPasswordCorrect) {
+      throw new Error("Invalid password");
+    }
+
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
   }
 };

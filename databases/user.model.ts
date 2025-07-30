@@ -26,6 +26,6 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-const User = models.User || model<IUser>("User", userSchema); // if user already exists, use it, otherwise create a new one
+const User = models?.User || model<IUser>("User", userSchema); // if user already exists, use it, otherwise create a new one
 
 export default User;

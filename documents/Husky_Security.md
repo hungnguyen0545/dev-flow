@@ -23,8 +23,8 @@ dev_flow/
 
 ### 1. **Git Hooks Directory**
 
-- Location: `.husky/`
-- Contains: `pre-commit` file
+- Location: [`.husky/`](https://github.com/hungnguyen0545/dev-flow/blob/main/.husky)
+- Contains: [`pre-commit`](https://github.com/hungnguyen0545/dev-flow/blob/main/.husky/pre-commit) file
 - Purpose: Defines what runs before each commit
 
 ### 2. **Pre-commit Hook**
@@ -55,7 +55,7 @@ echo "✅ Pre-commit checks passed!"
 
 ### 3. **Secret Scanning Script**
 
-- Location: `scripts/check-secrets.js`
+- Location: [`scripts/check-secrets.js`](https://github.com/hungnguyen0545/dev-flow/blob/main/scripts/check-secrets.js)
 - Purpose: Comprehensive secret detection
 - Features:
   - Scans for hardcoded API keys, secrets, tokens

@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 import slugify from "slugify";
 
 import { RESPONSE_SOURCE } from "@/constants";
-import Account from "@/databases/account.model";
-import User from "@/databases/user.model";
+import { Account, User } from "@/databases";
 import handleError from "@/lib/handlers/errors";
 import { ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";

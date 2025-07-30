@@ -4,8 +4,7 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 import { signIn } from "@/auth";
-import Account from "@/databases/account.model";
-import User from "@/databases/user.model";
+import { Account, User } from "@/databases";
 import { action } from "@/lib/handlers/action";
 
 import handleError from "../handlers/errors";
@@ -22,14 +21,14 @@ export const signUpWithCredentials = async ({
   if (validatedResult instanceof Error) {
     return handleError(validatedResult) as ErrorResponse;
   }
-  const { name, username, email, password } = validatedResult.params!;
 
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const existingUser = await User.findOne({ username }).session(session);
+    const { name, username, email, password } = validatedResult.params!;
 
+    const existingUser = await User.findOne({ username }).session(session);
     if (existingUser) {
       throw new Error("User already exists");
     }

@@ -12,7 +12,7 @@ interface Author {
 interface Question {
   _id: string;
   title: string;
-  description: string;
+  content: string;
   tags: Tag[];
   author: Author;
   upvotes: number;
@@ -44,4 +44,12 @@ type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 interface RouteParams {
   params: Promise<Record<string, string>>; // ex: params; /questions/123
   searchParams: Promise<Record<string, string>>; // ex: searchParams; /questions?q=123&tag=123
+}
+
+interface PaginatedSearchParams {
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  filter?: string;
+  sort?: string;
 }

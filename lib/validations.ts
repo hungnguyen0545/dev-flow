@@ -54,25 +54,6 @@ export const SignUpSchema = z.object({
     }),
 });
 
-export const AskQuestionSchema = z.object({
-  title: z
-    .string()
-    .min(1, { message: "Title is required." })
-    .max(100, { message: "Title cannot exceed 100 characters." }),
-
-  content: z
-    .string()
-    .min(1, { message: "Content is required." })
-    .max(200, { message: "Content cannot exceed 200 characters." }),
-
-  tags: z
-    .array(z.string().min(1, { message: "Tag is required." }), {
-      message: "Tags are required.",
-    })
-    .min(1, { message: "Tags are required." })
-    .max(3, { message: "Tags cannot exceed 3 tags." }),
-});
-
 export const UserSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
   username: z
@@ -125,4 +106,39 @@ export const SignInWithOAuthSchema = z.object({
     .string()
     .min(1, { message: "Provider Account ID is required." }),
   user: UserSchema,
+});
+
+export const AskQuestionSchema = z.object({
+  title: z
+    .string()
+    .min(1, { message: "Title is required." })
+    .max(100, { message: "Title cannot exceed 100 characters." }),
+
+  content: z
+    .string()
+    .min(1, { message: "Content is required." })
+    .max(200, { message: "Content cannot exceed 200 characters." }),
+
+  tags: z
+    .array(z.string().min(1, { message: "Tag is required." }), {
+      message: "Tags are required.",
+    })
+    .min(1, { message: "Tags are required." })
+    .max(3, { message: "Tags cannot exceed 3 tags." }),
+});
+
+export const EditQuestionSchema = AskQuestionSchema.extend({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const GetQuestionSchema = z.object({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const PaginatedSearchParamsSchema = z.object({
+  page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().default(10),
+  query: z.string().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(),
 });

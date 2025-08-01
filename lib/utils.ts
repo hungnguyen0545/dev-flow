@@ -15,7 +15,8 @@ export function getDevIconClassName(name: string) {
     : "devicon-devicon-plain";
 }
 
-export const getTimeStamp = (date: Date) => {
+export const getTimeStamp = (createdAt: Date) => {
+  const date = new Date(createdAt);
   const now = new Date();
   const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
 
@@ -40,4 +41,12 @@ export const getTimeStamp = (date: Date) => {
 
 export const isError = (error: unknown): error is Error => {
   return error instanceof Error;
+};
+
+export const convertToJson = (data: unknown) => {
+  if (typeof data === "object" && data !== null) {
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  return data;
 };

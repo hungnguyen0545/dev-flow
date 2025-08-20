@@ -61,17 +61,25 @@ const Home = async ({ searchParams }: HomeProps) => {
         />
       </section>
       <HomeFilter />
-      <section className="mt-10 flex w-full flex-col gap-6">
-        {questions && questions.length > 0 ? (
-          questions.map((question) => (
-            <QuestionCard key={question._id} question={question} />
-          ))
-        ) : (
-          <div className="mt-10 flex w-full items-center justify-center">
-            <p className="text-dark400_light700">No questions found</p>
-          </div>
-        )}
-      </section>
+      {success ? (
+        <section className="mt-10 flex w-full flex-col gap-6">
+          {questions && questions.length > 0 ? (
+            questions.map((question) => (
+              <QuestionCard key={question._id} question={question} />
+            ))
+          ) : (
+            <div className="mt-10 flex w-full items-center justify-center">
+              <p className="text-dark400_light700">No questions found</p>
+            </div>
+          )}
+        </section>
+      ) : (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">
+            {error?.message || "Failed to fetch questions"}
+          </p>
+        </div>
+      )}
     </>
   );
 };

@@ -36,13 +36,15 @@ export const getQuestion = async ({
   try {
     const question = await Question.findById(questionId)
       .populate("tags")
-      .populate("author", "name image");
+      .populate("authorId", "name image");
 
     if (!question) {
       throw new Error("Question not found");
     }
-
-    return { success: true, data: convertToJson(question) };
+    const transformedQuestion = convertToJson(question);
+    transformedQuestion.author = transformedQuestion.authorId;
+    delete transformedQuestion.authorId;
+    return { success: true, data: transformedQuestion };
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
@@ -299,6 +301,11 @@ export const editQuestion = async ({
         )
     );
 
+    const tagsToRemove = question.tags.filter(
+      (tag: ITagDoc) =>
+        !tags.some((t: string) => t.toLowerCase() === tag.name.toLowerCase()) // check if the tag is already in the new tags);
+    );
+
     if (tagsToAdd.length > 0) {
       for (const tag of tagsToAdd) {
         const existingTag = await Tag.findOneAndUpdate(
@@ -318,16 +325,10 @@ export const editQuestion = async ({
       }
     }
 
-    const tagsToRemove = question.tags.filter(
-      (tag: ITagDoc) =>
-        !tags.some(
-          (t: string) => t.toLowerCase() === tag.name.toLowerCase() // check if the tag is already in the new tags
-        )
-    );
     if (tagsToRemove.length > 0) {
       const tagIdsToRemove = tagsToRemove.map((tag: ITagDoc) => tag._id);
 
-      await TagQuestion.updateMany(
+      await Tag.updateMany(
         { _id: { $in: tagIdsToRemove } },
         { $inc: { questions: -1 } },
         { session }

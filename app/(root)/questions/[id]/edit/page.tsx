@@ -20,7 +20,7 @@ const EditQuestion = async ({ params }: RouteParams) => {
   });
   if (!success) return notFound();
 
-  if (question.authorId.toString() !== session?.user?.id) {
+  if (question.author._id.toString() !== session?.user?.id) {
     return redirect(ROUTES.QUESTION(id));
   }
 

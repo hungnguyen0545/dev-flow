@@ -1,5 +1,3 @@
-"use server";
-
 import mongoose, { FilterQuery } from "mongoose";
 
 import { Question, Tag, TagQuestion } from "@/databases";

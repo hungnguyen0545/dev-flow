@@ -1,17 +1,24 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { TECH_MAP } from "@/constants/techMap";
+import { TECH_ICON_MAP, TECH_DESCRIPTION_MAP } from "@/constants/techMap";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const getTechDescription = (techName: string) => {
+  const normalizedTechName = techName.replace(/[ .]/g, "").toLowerCase();
+  return TECH_DESCRIPTION_MAP[normalizedTechName]
+    ? TECH_DESCRIPTION_MAP[normalizedTechName]
+    : `${techName} is a technology or tool widely used in web development, providing valuable features and capabilities.`;
+};
+
 export function getDevIconClassName(name: string) {
   const normalizedTechName = name.toLowerCase().replace(/\s+/g, ""); // Remove spaces and convert to lowercase
 
-  return TECH_MAP[normalizedTechName]
-    ? `${TECH_MAP[normalizedTechName]} colored`
+  return TECH_ICON_MAP[normalizedTechName]
+    ? `${TECH_ICON_MAP[normalizedTechName]} colored`
     : "devicon-devicon-plain";
 }
 

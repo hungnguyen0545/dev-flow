@@ -5,7 +5,7 @@ import ROUTES from "@/constants/routes";
 import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tag.action";
 
-const page = async ({ searchParams }: RouteParams) => {
+const TagsPage = async ({ searchParams }: RouteParams) => {
   const { page = 1, pageSize = 10, query, filter } = await searchParams;
 
   const { success, data, error } = await getTags({
@@ -47,4 +47,4 @@ const page = async ({ searchParams }: RouteParams) => {
   );
 };
 
-export default page;
+export default TagsPage;

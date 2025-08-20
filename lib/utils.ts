@@ -7,21 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getTechDescription = (techName: string) => {
-  const normalizedTechName = techName.replace(/[ .]/g, "").toLowerCase();
-  return TECH_DESCRIPTION_MAP[normalizedTechName]
-    ? TECH_DESCRIPTION_MAP[normalizedTechName]
-    : `${techName} is a technology or tool widely used in web development, providing valuable features and capabilities.`;
-};
-
-export function getDevIconClassName(name: string) {
-  const normalizedTechName = name.toLowerCase().replace(/\s+/g, ""); // Remove spaces and convert to lowercase
-
-  return TECH_ICON_MAP[normalizedTechName]
-    ? `${TECH_ICON_MAP[normalizedTechName]} colored`
-    : "devicon-devicon-plain";
-}
-
 export const getTimeStamp = (createdAt: Date) => {
   const date = new Date(createdAt);
   const now = new Date();
@@ -57,3 +42,31 @@ export const convertToJson = (data: unknown) => {
 
   return data;
 };
+
+export const formatNumber = (number: number) => {
+  if (isNaN(number)) return "0";
+
+  const formattedNumber = Number(number);
+  if (formattedNumber >= 1000000) {
+    return (formattedNumber / 1000000).toFixed(1) + "M";
+  }
+  if (formattedNumber >= 1000) {
+    return (formattedNumber / 1000).toFixed(1) + "K";
+  }
+  return formattedNumber.toString();
+};
+
+export const getTechDescription = (techName: string) => {
+  const normalizedTechName = techName.replace(/[ .]/g, "").toLowerCase();
+  return TECH_DESCRIPTION_MAP[normalizedTechName]
+    ? TECH_DESCRIPTION_MAP[normalizedTechName]
+    : `${techName} is a technology or tool widely used in web development, providing valuable features and capabilities.`;
+};
+
+export function getDevIconClassName(name: string) {
+  const normalizedTechName = name.toLowerCase().replace(/\s+/g, ""); // Remove spaces and convert to lowercase
+
+  return TECH_ICON_MAP[normalizedTechName]
+    ? `${TECH_ICON_MAP[normalizedTechName]} colored`
+    : "devicon-devicon-plain";
+}

@@ -18,7 +18,7 @@ export const getQuestion = async ({
   params,
 }: {
   params: { questionId: string };
-}) => {
+}): Promise<ActionResponse<Question>> => {
   const validationResult = await action({
     params,
     schema: GetQuestionSchema,

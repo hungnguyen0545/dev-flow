@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 import { SheetClose } from "@/components/ui/sheet";
-import { sidebarLinks } from "@/constants";
+import { SIDEBAR_ITEMS } from "@/constants";
 import ROUTES from "@/constants/routes";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,7 @@ const NavLinks = ({
 
   return (
     <section className="flex h-full flex-col gap-6">
-      {sidebarLinks.map((link) => {
+      {SIDEBAR_ITEMS.map((link) => {
         const isActive =
           pathname === link.route ||
           (pathname?.includes(link.route) && link.route.length > 1);

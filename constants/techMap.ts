@@ -1,4 +1,4 @@
-export const techMap: { [key: string]: string } = {
+export const TECH_MAP: { [key: string]: string } = {
   // JavaScript variations
   javascript: "devicon-javascript-plain",
   js: "devicon-javascript-plain",

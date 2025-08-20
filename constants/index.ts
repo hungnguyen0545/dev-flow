@@ -1,6 +1,6 @@
 import ROUTES from "./routes";
 
-export const sidebarLinks = [
+export const SIDEBAR_ITEMS = [
   {
     imgURL: "/icons/home.svg",
     route: ROUTES.HOME,
@@ -23,7 +23,7 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/icons/tag.svg",
-    route: ROUTES.TAGS(""),
+    route: ROUTES.TAGS,
     label: "Tags",
   },
   {

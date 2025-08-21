@@ -7,7 +7,91 @@ import Question from "@/databases/question.model";
 
 import { action } from "../handlers/action";
 import handleError from "../handlers/errors";
-import { CreateAnswerSchema } from "../validations";
+import { CreateAnswerSchema, GetAnswersSchema } from "../validations";
+
+export const getAnswers = async (
+  params: GetAnswersParams
+): Promise<
+  ActionResponse<{
+    answers: Answer[];
+    totalAnswers: number;
+    isNext: boolean;
+  }>
+> => {
+  const validatedResult = await action({
+    params,
+    schema: GetAnswersSchema,
+    authorize: true,
+  });
+
+  if (validatedResult instanceof Error) {
+    return handleError(validatedResult) as ErrorResponse;
+  }
+
+  try {
+    const {
+      questionId,
+      page = 1,
+      pageSize = 10,
+      filter,
+    } = validatedResult.params!;
+
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const limit = Number(pageSize);
+
+    let sortCriteria = {};
+
+    switch (filter) {
+      case "latest":
+        sortCriteria = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortCriteria = { createdAt: 1 };
+        break;
+      case "popular":
+        sortCriteria = { upvotes: -1 };
+        break;
+      default:
+        sortCriteria = { createdAt: -1 };
+        break;
+    }
+
+    const totalAnswers = await Answer.countDocuments({
+      questionId,
+    });
+
+    const answers = await Answer.find({
+      questionId,
+    })
+      .populate("authorId", "_id name image")
+      .sort(sortCriteria)
+      .skip(skip)
+      .limit(limit);
+
+    const isNext = skip + answers.length < totalAnswers;
+
+    let transformedAnswers = JSON.parse(JSON.stringify(answers));
+    transformedAnswers = transformedAnswers.map(
+      (answer: Record<string, unknown>) => {
+        answer.author = answer.authorId;
+        delete answer.authorId;
+
+        return answer;
+      }
+    );
+
+    return {
+      success: true,
+      data: {
+        answers: transformedAnswers,
+        totalAnswers,
+        isNext,
+      },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+};
 
 export const createAnswer = async (
   params: CreateAnswerParams

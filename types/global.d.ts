@@ -27,6 +27,7 @@ interface Answer {
   author: Author;
   upvotes: number;
   downvotes: number;
+  createdAt: Date;
 }
 
 type OAuthProvider = "github" | "google";

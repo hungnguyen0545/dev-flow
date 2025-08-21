@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { after } from "next/server";
 
+import AllAnswers from "@/components/answers/AllAnswers";
 import UserAvatar from "@/components/avatar/UserAvatar";
 import { TagCard } from "@/components/cards/TagCard";
 import Preview from "@/components/editor/Preview";
@@ -10,6 +11,7 @@ import DataRenderer from "@/components/renderers/DataRenderers";
 import Metric from "@/components/ui/metric";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTIONS } from "@/constants/states";
+import { getAnswers } from "@/lib/actions/answer.action";
 import { getQuestion, incrementViewCount } from "@/lib/actions/question.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
@@ -32,6 +34,17 @@ const QuestionDetails = async ({ params }: RouteParams) => {
     );
   }
 
+  const {
+    success: areAnswersLoaded,
+    error: answersError,
+    data: answersResult,
+  } = await getAnswers({
+    questionId: id,
+    page: 1,
+    pageSize: 10,
+    filter: "latest",
+  });
+
   const { author, createdAt, answers, views, tags, content, title } = question;
 
   // after feature used to increment the view count after the page is rendered
@@ -42,8 +55,8 @@ const QuestionDetails = async ({ params }: RouteParams) => {
   return (
     <>
       <div className="flex-start w-full flex-col">
-        <div className="flex w-full flex-col-reverse justify-between gap-5">
-          <div className="flex items-center justify-start gap-1">
+        <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center">
+          <div className="flex flex-1 items-center justify-start gap-1">
             <UserAvatar
               userId={author._id}
               name={author.name}
@@ -99,6 +112,15 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
         ))}
       </div>
+
+      <section className="my-5">
+        <AllAnswers
+          data={answersResult?.answers}
+          success={areAnswersLoaded}
+          error={answersError}
+          totalAnswers={answers}
+        />
+      </section>
 
       <section className="my-5">
         <AnswerForm questionId={id} />

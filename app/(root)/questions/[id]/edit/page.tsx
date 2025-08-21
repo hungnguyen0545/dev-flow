@@ -16,11 +16,11 @@ const EditQuestion = async ({ params }: RouteParams) => {
   if (!session) return redirect(ROUTES.SIGN_IN);
 
   const { data: question, success } = await getQuestion({
-    params: { questionId: id },
+    questionId: id,
   });
   if (!success) return notFound();
 
-  if (question.author._id.toString() !== session?.user?.id) {
+  if (question?.author._id.toString() !== session?.user?.id) {
     return redirect(ROUTES.QUESTION(id));
   }
 

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { after } from "next/server";
 
 import UserAvatar from "@/components/avatar/UserAvatar";
 import { TagCard } from "@/components/cards/TagCard";
@@ -7,14 +9,15 @@ import DataRenderer from "@/components/renderers/DataRenderers";
 import Metric from "@/components/ui/metric";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTIONS } from "@/constants/states";
-import { getQuestion } from "@/lib/actions/question.action";
+import { getQuestion, incrementViewCount } from "@/lib/actions/question.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 const QuestionDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
+  if (!id) return notFound();
 
   const { success, data: question } = await getQuestion({
-    params: { questionId: id },
+    questionId: id,
   });
 
   if (!success || !question) {
@@ -30,6 +33,11 @@ const QuestionDetails = async ({ params }: RouteParams) => {
 
   const { author, createdAt, answers, views, tags, content, title } = question;
 
+  // after feature used to increment the view count after the page is rendered
+  after(async () => {
+    // fire-and-forget, avoid UI updates that can cause re-renders
+    await incrementViewCount({ questionId: id });
+  });
   return (
     <>
       <div className="flex-start w-full flex-col">

@@ -1,3 +1,5 @@
+"use server";
+
 import mongoose, { FilterQuery } from "mongoose";
 
 import { Question, Tag, TagQuestion } from "@/databases";
@@ -11,13 +13,12 @@ import {
   AskQuestionSchema,
   EditQuestionSchema,
   GetQuestionSchema,
+  IncrementViewsSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
 
-export const getQuestion = async ({
-  params,
-}: {
-  params: { questionId: string };
+export const getQuestion = async (params: {
+  questionId: string;
 }): Promise<ActionResponse<Question>> => {
   const validationResult = await action({
     params,
@@ -364,5 +365,55 @@ export const editQuestion = async ({
     return handleError(error) as ErrorResponse;
   } finally {
     await session.endSession();
+  }
+};
+
+/**
+ * Increments the view count for a specific question
+ * @param params - Object containing questionId to identify the question
+ * @returns Promise resolving to ActionResponse containing updated view count or error
+ *
+ * This function:
+ * 1. Validates the input questionId parameter
+ * 2. Finds the question in the database
+ * 3. Increments its view count by 1
+ * 4. Saves the updated question
+ * 5. Revalidates the question page cache using Next.js's revalidatePath
+ * 6. Returns the new view count
+ *
+ * Throws error if:
+ * - Question ID validation fails
+ * - Question is not found in database
+ */
+export const incrementViewCount = async (
+  params: IncrementViewsParams
+): Promise<ActionResponse<{ views: number }>> => {
+  const validatedResult = await action({
+    params,
+    schema: IncrementViewsSchema,
+  });
+
+  if (validatedResult instanceof Error) {
+    return handleError(validatedResult) as ErrorResponse;
+  }
+
+  const { questionId } = validatedResult.params!;
+
+  try {
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    question.views += 1;
+    await question.save();
+
+    return {
+      success: true,
+      data: { views: question.views },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
   }
 };

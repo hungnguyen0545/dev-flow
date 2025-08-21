@@ -5,6 +5,7 @@ import { after } from "next/server";
 import UserAvatar from "@/components/avatar/UserAvatar";
 import { TagCard } from "@/components/cards/TagCard";
 import Preview from "@/components/editor/Preview";
+import AnswerForm from "@/components/forms/AnswerForm";
 import DataRenderer from "@/components/renderers/DataRenderers";
 import Metric from "@/components/ui/metric";
 import ROUTES from "@/constants/routes";
@@ -98,6 +99,10 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
         ))}
       </div>
+
+      <section className="my-5">
+        <AnswerForm questionId={id} />
+      </section>
     </>
   );
 };

@@ -13,7 +13,7 @@ import {
   AskQuestionSchema,
   EditQuestionSchema,
   GetQuestionSchema,
-  IncrementViewsSchema,
+  IncrementQuestionViewsSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
 
@@ -386,11 +386,11 @@ export const editQuestion = async ({
  * - Question is not found in database
  */
 export const incrementViewCount = async (
-  params: IncrementViewsParams
+  params: IncrementQuestionViewsParams
 ): Promise<ActionResponse<{ views: number }>> => {
   const validatedResult = await action({
     params,
-    schema: IncrementViewsSchema,
+    schema: IncrementQuestionViewsSchema,
   });
 
   if (validatedResult instanceof Error) {

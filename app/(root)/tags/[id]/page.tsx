@@ -18,12 +18,7 @@ const TagDetails = async ({ params, searchParams }: RouteParams) => {
     query,
   });
 
-  const { tag, questions, isNext } = data!;
-
-  console.log("tag:", tag);
-  console.log("questions:", questions);
-  console.log("isNext:", isNext);
-
+  const { tag, questions } = data!;
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">

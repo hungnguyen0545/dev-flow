@@ -21,6 +21,14 @@ interface Question {
   createdAt: Date;
 }
 
+interface Answer {
+  _id: string;
+  content: string;
+  author: Author;
+  upvotes: number;
+  downvotes: number;
+}
+
 type OAuthProvider = "github" | "google";
 
 type ResponseSource = "api" | "server";
